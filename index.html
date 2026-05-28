@@ -1,375 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Online Services Store PWA</title>
+  <meta charset="UTF-8">
+  <title>PWA Test</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4f46e5">
+  <link rel="manifest" href="manifest.json">
 
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#4f46e5">
 
-<style>
-:root{
-  --primary:#4f46e5;
-  --accent:#7c3aed;
-  --bg:#f3f4ff;
-  --card:#fff;
-  --text:#1e1b4b;
-}
+  <style>
+    body{
+      font-family:Arial;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      background:#f3f4ff;
+    }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Nunito',sans-serif;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  padding-bottom:80px;
-}
-
-/* HEADER */
-header{
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:white;
-  padding:60px 20px;
-  text-align:center;
-}
-
-header h1{
-  font-size:2.2rem;
-  font-weight:800;
-}
-
-header p{
-  margin-top:10px;
-  opacity:.9;
-}
-
-/* SEARCH */
-.search-box{
-  padding:16px;
-}
-
-.search-box input{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  font-size:15px;
-  outline:none;
-}
-
-/* GRID */
-.container{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-  padding:16px;
-}
-
-.card{
-  background:var(--card);
-  border-radius:20px;
-  padding:20px;
-  text-align:center;
-  box-shadow:0 6px 20px rgba(0,0,0,.08);
-}
-
-.card img{
-  width:60px;
-  margin-bottom:12px;
-}
-
-.card h3{
-  font-size:15px;
-  margin-bottom:6px;
-}
-
-.card p{
-  font-size:12px;
-  color:#666;
-  margin-bottom:12px;
-}
-
-.card button{
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  color:white;
-  border:none;
-  padding:10px 18px;
-  border-radius:30px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-/* TOAST */
-#toast{
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111827;
-  color:white;
-  padding:12px 20px;
-  border-radius:50px;
-  display:none;
-  z-index:9999;
-}
-
-/* INSTALL BTN */
-#installBtn{
-  position:fixed;
-  bottom:90px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#4f46e5;
-  color:white;
-  border:none;
-  padding:14px 22px;
-  border-radius:50px;
-  font-weight:800;
-  display:none;
-  z-index:999;
-}
-
-/* NAV */
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  display:flex;
-  justify-content:space-around;
-  padding:10px;
-  box-shadow:0 -4px 20px rgba(0,0,0,.08);
-}
-
-.bottom-nav a{
-  text-decoration:none;
-  color:#666;
-  font-size:12px;
-  font-weight:700;
-  text-align:center;
-}
-
-.bottom-nav span{
-  display:block;
-  font-size:22px;
-}
-
-@media(min-width:700px){
-  .container{
-    grid-template-columns:repeat(4,1fr);
-  }
-}
-</style>
+    #installBtn{
+      display:none;
+      padding:15px 30px;
+      border:none;
+      border-radius:50px;
+      background:#4f46e5;
+      color:white;
+      font-size:18px;
+      font-weight:bold;
+    }
+  </style>
 </head>
 <body>
 
-<!-- TOAST -->
-<div id="toast"></div>
-
-<!-- INSTALL -->
 <button id="installBtn">📲 Install App</button>
 
-<!-- HEADER -->
-<header>
-  <h1>Online Services Store</h1>
-  <p>Fast · Trusted · Professional</p>
-</header>
-
-<!-- SEARCH -->
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="Search services...">
-</div>
-
-<!-- SERVICES -->
-<div class="container" id="serviceGrid">
-
-  <div class="card" data-name="food delivery">
-    <img src="https://img.icons8.com/color/96/food-delivery.png">
-    <h3>Food Delivery</h3>
-    <p>Fresh food delivered fast.</p>
-    <button onclick="bookService('Food Delivery')">Order</button>
-  </div>
-
-  <div class="card" data-name="plumber">
-    <img src="https://img.icons8.com/color/96/plumber.png">
-    <h3>Plumber</h3>
-    <p>Professional plumbing service.</p>
-    <button onclick="bookService('Plumber')">Book</button>
-  </div>
-
-  <div class="card" data-name="electrician">
-    <img src="https://img.icons8.com/color/96/electrical.png">
-    <h3>Electrician</h3>
-    <p>Electrical repairs experts.</p>
-    <button onclick="bookService('Electrician')">Book</button>
-  </div>
-
-  <div class="card" data-name="taxi cab">
-    <img src="https://img.icons8.com/color/96/taxi.png">
-    <h3>Taxi Service</h3>
-    <p>Affordable taxi booking.</p>
-    <button onclick="bookService('Taxi Service')">Ride</button>
-  </div>
-
-</div>
-
-<!-- NAV -->
-<div class="bottom-nav">
-  <a href="#"><span>🏠</span>Home</a>
-  <a href="#"><span>⚡</span>Services</a>
-  <a href="#"><span>📞</span>Contact</a>
-  <a href="#"><span>👤</span>Account</a>
-</div>
-
 <script>
-/* TOAST */
-function showToast(msg){
-  const toast = document.getElementById("toast");
-
-  toast.innerText = msg;
-  toast.style.display = "block";
-
-  setTimeout(()=>{
-    toast.style.display = "none";
-  },2500);
-}
-
-/* BOOK */
-function bookService(service){
-
-  showToast(service + " booked!");
-
-  const phone = "919999999999";
-
-  const text = encodeURIComponent(
-    "Hello, I want to book " + service
-  );
-
-  window.open(
-    `https://wa.me/${phone}?text=${text}`,
-    "_blank"
-  );
-}
-
-/* SEARCH */
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("input", ()=>{
-
-  const value = searchInput.value.toLowerCase();
-
-  document.querySelectorAll(".card").forEach(card=>{
-
-    const name = card.dataset.name;
-
-    if(name.includes(value)){
-      card.style.display = "block";
-    }else{
-      card.style.display = "none";
-    }
-
-  });
-
-});
-
-/* PWA INSTALL */
 let deferredPrompt;
 
 const installBtn = document.getElementById("installBtn");
 
-window.addEventListener("beforeinstallprompt",(e)=>{
-
-  e.preventDefault();
-
-  deferredPrompt = e;
-
-  installBtn.style.display = "block";
-
-});
-
-installBtn.addEventListener("click", async ()=>{
-
-  installBtn.style.display = "none";
-
-  deferredPrompt.prompt();
-
-  const { outcome } = await deferredPrompt.userChoice;
-
-  if(outcome === "accepted"){
-    showToast("App Installed Successfully");
-  }
-
-});
-
-/* REGISTER SW */
-if("serviceWorker" in navigator){
-
-  window.addEventListener("load",()=>{
-
-    navigator.serviceWorker.register("./sw.js")
-      .then(()=>{
-        console.log("PWA Ready");
-      });
-
-  });
-
-}
-</script><!-- INSTALL BUTTON -->
-<button id="installBtn" style="
-position:fixed;
-bottom:150px;
-left:50%;
-transform:translateX(-50%);
-padding:14px 24px;
-border:none;
-border-radius:50px;
-background:linear-gradient(135deg,#4f46e5,#7c3aed);
-color:#fff;
-font-size:15px;
-font-weight:800;
-z-index:99999;
-display:none;
-box-shadow:0 8px 24px rgba(0,0,0,.25);
-cursor:pointer;
-">
-📲 Install App
-</button>
-
-<!-- PWA MANIFEST -->
-<link rel="manifest" href="manifest.json">
-
-<meta name="theme-color" content="#4f46e5">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<script>
-/* =========================
-   PWA INSTALL
-========================= */
-
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
-
-/* REGISTER SERVICE WORKER */
+/* SERVICE WORKER */
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .then(() => console.log("Service Worker Registered"))
-      .catch(err => console.log(err));
+  navigator.serviceWorker.register("service-worker.js")
+  .then(() => {
+    console.log("SW Registered");
   });
 }
 
-/* INSTALL PROMPT */
+/* INSTALL EVENT */
 window.addEventListener("beforeinstallprompt", (e) => {
+
+  console.log("INSTALL AVAILABLE");
+
   e.preventDefault();
 
   deferredPrompt = e;
@@ -377,31 +59,20 @@ window.addEventListener("beforeinstallprompt", (e) => {
   installBtn.style.display = "block";
 });
 
-/* INSTALL CLICK */
+/* BUTTON CLICK */
 installBtn.addEventListener("click", async () => {
 
   if (!deferredPrompt) {
-    alert("Install not available yet");
+    alert("Install not supported yet");
     return;
   }
 
   deferredPrompt.prompt();
 
-  const { outcome } = await deferredPrompt.userChoice;
+  const result = await deferredPrompt.userChoice;
 
-  if (outcome === "accepted") {
-    console.log("PWA installed");
-  }
+  console.log(result);
 
-  deferredPrompt = null;
-
-  installBtn.style.display = "none";
-});
-
-/* HIDE BUTTON AFTER INSTALL */
-window.addEventListener("appinstalled", () => {
-  installBtn.style.display = "none";
-  console.log("Installed successfully");
 });
 </script>
 
