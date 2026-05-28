@@ -322,6 +322,87 @@ if("serviceWorker" in navigator){
   });
 
 }
+</script><!-- INSTALL BUTTON -->
+<button id="installBtn" style="
+position:fixed;
+bottom:150px;
+left:50%;
+transform:translateX(-50%);
+padding:14px 24px;
+border:none;
+border-radius:50px;
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+color:#fff;
+font-size:15px;
+font-weight:800;
+z-index:99999;
+display:none;
+box-shadow:0 8px 24px rgba(0,0,0,.25);
+cursor:pointer;
+">
+📲 Install App
+</button>
+
+<!-- PWA MANIFEST -->
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#4f46e5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<script>
+/* =========================
+   PWA INSTALL
+========================= */
+
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+/* REGISTER SERVICE WORKER */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("Service Worker Registered"))
+      .catch(err => console.log(err));
+  });
+}
+
+/* INSTALL PROMPT */
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+
+  deferredPrompt = e;
+
+  installBtn.style.display = "block";
+});
+
+/* INSTALL CLICK */
+installBtn.addEventListener("click", async () => {
+
+  if (!deferredPrompt) {
+    alert("Install not available yet");
+    return;
+  }
+
+  deferredPrompt.prompt();
+
+  const { outcome } = await deferredPrompt.userChoice;
+
+  if (outcome === "accepted") {
+    console.log("PWA installed");
+  }
+
+  deferredPrompt = null;
+
+  installBtn.style.display = "none";
+});
+
+/* HIDE BUTTON AFTER INSTALL */
+window.addEventListener("appinstalled", () => {
+  installBtn.style.display = "none";
+  console.log("Installed successfully");
+});
 </script>
 
 </body>
